@@ -30,9 +30,19 @@ dir.traverse (type: FileType.FILES, nameFilter: ~/(?i).*.sql/) { file ->
 
 list.each {
     println it.path
+    def file = new File(it.path)
+    def sql = file.text
+
+    Statement stmt = CCJSqlParserUtil.parse(sql)
+    Select selectStatement = (Select) stmt
+    TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
+    List<String> tableList = tablesNamesFinder.getTableList(selectStatement)
+
+    println tableList
 }
 
 
+/*
 def sql = """
 SELECT 
     ogc_fid AS t_id,
@@ -66,7 +76,7 @@ WHERE
 
 sql = """
 WITH foo AS (
-    SELECT * FROM bar
+    SELECT a::int FROM bar
 )
 SELECT * FROM foo
 ;
@@ -77,6 +87,6 @@ Select selectStatement = (Select) stmt
 TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
 List<String> tableList = tablesNamesFinder.getTableList(selectStatement)
 
-
+*/
 
 println tableList
