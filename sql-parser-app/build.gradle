@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'ch.so.agi.gretl.jobs.cleaner.App'
+
+dependencies {
+    compile group: 'com.facebook.presto', name: 'presto-parser', version: '0.208'
+    compile group: 'com.github.jsqlparser', name: 'jsqlparser', version: '1.2'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.0.2.201807311906-r'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    compile 'com.google.guava:guava:23.0'
+    testCompile 'junit:junit:4.12'
+}
+
+repositories {
+    jcenter()
+}

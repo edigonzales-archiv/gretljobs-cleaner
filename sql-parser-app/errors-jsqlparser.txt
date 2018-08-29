@@ -1,0 +1,37 @@
+* arp_mjpnatur_pub_flaechen.sql: Mehrfaches Casting. In diesem Fall eh nicht ganz glücklich, das Timestamp to Date to varchar to text. Eher würde man einfach sauber den Timestamp zum gewünschten Text formatieren.
+
+* arp_naturreservate_pub_naturreservate_teilgebiete.sql: 
+ - POSITION('xx' IN gaga). Kann mit strpos() ersetzt werden.
+ - string_agg(DISTINCT flaechen_geom.vbnr, ', ' ORDER BY flaechen_geom.vbnr) funktioniert auch nicht.
+* arp_naturreservate_pub_naturreservate_reservate.sql.orig: wie 'teilgebietge'
+
+* delete_from_agi_av_kaso_abgleich_import.sql: _mehrere DELETE_ -> bei ; splitten. Dann noch im Code unterscheiden SELECT oder DELETE oder...
+
+* agi_av_kaso_abgleich_import_uebersicht_des_vergleichs_staging: hier kommt zuerst ein DELETE
+* dito, in Kombination mit INSERT. Geht irgendwie nicht zusammen schon beim Parser.
+
+* afu_isboden_pub_bodenprofilstandort: string_agg mit order by (wahrscheinlich)
+
+* amb_zivilschutz_adressen_staging_adressen_zivilschutz: 
+ - wegen postgis "&&".
+ - wegen INSERT mit WITH
+
+
+* createHoheitsgrenzenSchema.sql: (hetzern wmts)
+ - create?
+
+ * gsareal_insert
+  - coalesce((((dump).path)[1]),0) as partindex,
+  - zone muss "zone" sein
+
+  * agi_hoheitsgrenzen_pub_hoheitsgrenzen_gemeindegrenze
+   - (ST_Dump(ST_Union(geometrie))).geom, 
+
+* awjf_biotopbaeume_pub_biotopbaeume_biotopbaum.sql
+ - wahrscheinlich &&
+
+ * afu_gewaesserschutz_pub_aww_gszoar.sql:
+  - zone -> "zone"
+
+  * agi_av_gb_abgleich_import_uebersicht_des_vergleichs_staging.sql:
+   - siehe kaso-import (with und so)

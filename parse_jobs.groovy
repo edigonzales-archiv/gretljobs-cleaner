@@ -21,6 +21,7 @@ Git git = Git.cloneRepository()
 */
 
 
+/*
 def list = []
 
 def dir = new File("./gretljobs")
@@ -40,7 +41,7 @@ list.each {
 
     println tableList
 }
-
+*/
 
 /*
 def sql = """
@@ -73,10 +74,10 @@ WHERE
     archive = 0
 ;
 """
-
+*/
 sql = """
 WITH foo AS (
-    SELECT a::int FROM bar
+    SELECT a::int, position('gaga' IN bubu) FROM bar
 )
 SELECT * FROM foo
 ;
@@ -87,6 +88,6 @@ Select selectStatement = (Select) stmt
 TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
 List<String> tableList = tablesNamesFinder.getTableList(selectStatement)
 
-*/
+
 
 println tableList
