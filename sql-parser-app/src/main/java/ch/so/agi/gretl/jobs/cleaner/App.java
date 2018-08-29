@@ -19,7 +19,8 @@ public class App {
         String localRepositoryDirectory = "./gretljobs";
 
         try {
-            /*
+           
+        	/*
             // Clone gretljobs repository.
             FileUtils.deleteDirectory(new File(localRepositoryDirectory));
             Git git = Git.cloneRepository()
@@ -27,6 +28,7 @@ public class App {
                     .setDirectory( new File(localRepositoryDirectory) )
                     .call();
             */
+        	
             // Find all *.sql files in cloned repository.
             String[] extensions = {"sql", "SQL"};
             Collection<File> sqlFilesList = FileUtils.listFiles(new File(localRepositoryDirectory), extensions, true);
@@ -36,12 +38,34 @@ public class App {
                 System.out.println(sqlFile.getAbsolutePath());
                 String fileContent = FileUtils.readFileToString(sqlFile, Charset.defaultCharset());
                 
+                PrestoParser prestoParser = new PrestoParser();
+                JSqlParser jsqlParser = new JSqlParser();
+
+                SqlReader reader = new SqlReader();
+                String statement = reader.readSqlStmt(sqlFile, null);
+
+                if (statement == null) {
+                    throw new Exception("At least one statement must be in the sql-File");
+                } else {
+                    while (statement != null) {
+                    	System.out.println(statement);
+                        //prestoParser.getTableList(statement);
+                        List tableList = jsqlParser.getTableList(statement);
+                        System.out.println(tableList);
+
+                        statement = reader.nextSqlStmt();
+                    }
+                }
+                reader.close();
+
+                
+                /*
                 JSqlParser jsqlParser = new JSqlParser();
                 List tableList = jsqlParser.getTableList(fileContent);
                 System.out.println(tableList);
+                */
                 
 
-                
                 
             }
 
