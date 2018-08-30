@@ -1,5 +1,7 @@
 @Grab(group='com.github.jsqlparser', module='jsqlparser', version='1.2')
 @Grab(group='org.eclipse.jgit', module='org.eclipse.jgit', version='5.0.2.201807311906-r')
+@Grab(group='org.apache.poi', module='poi', version='3.17')
+@Grab(group='org.apache.poi', module='poi-ooxml', version='3.17')
 
 import groovy.io.FileType
 
@@ -11,6 +13,9 @@ import net.sf.jsqlparser.statement.insert.Insert
 import net.sf.jsqlparser.statement.select.Select
 import net.sf.jsqlparser.util.TablesNamesFinder
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.eclipse.jgit.api.Git
 
 def jobsRepository = "https://github.com/sogis/gretljobs"
@@ -18,13 +23,11 @@ def localCloneDirectory = "../gretljobs"
 
 // Clone jobs repository.
 // Existing directory will be deleted.
-/*
 new File(localCloneDirectory).deleteDir()
 Git git = Git.cloneRepository()
         .setURI(jobsRepository)
         .setDirectory(new File(localCloneDirectory))
         .call()
-*/
 
 // At the moment some of the sql queries cannot
 // be parsed with jsqlparser.
@@ -60,7 +63,13 @@ dir.traverse (type: FileType.FILES, nameFilter: ~/(?i).*.sql/) { file ->
     list << file
 }
 
+// Prepare xlsx
+Workbook workbook = new XSSFWorkbook()
+Sheet sheet = workbook.createSheet("Tables")
+
 // Loop through all sql files and parse the query.
+def allTables = []
+int rowNum = 0
 list.each {
     println it.path
 
@@ -75,16 +84,40 @@ list.each {
     for (Statement stmt : stmts.statements) {
         TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
         List<String> tableList = (tablesNamesFinder.getTableList(stmt))
+        allTables.addAll(tableList)
+
         tableList.each { table ->
-            println table
+            Row row = sheet.createRow(rowNum++);
+            try {
+                // create xlsx row with sql file name and qualified table name
+                println table + "," + it.path.substring(localCloneDirectory.size())
+                row.createCell(0).setCellValue(table)
+                println table
+                def splitted = table.split("\\.")
+                if (splitted.size() == 1) {
+                    row.createCell(1).setCellValue("")
+                    row.createCell(2).setCellValue(splitted[0])
+                } else {
+                    row.createCell(1).setCellValue(splitted[0])
+                    row.createCell(2).setCellValue(splitted[1])
+                }
+                row.createCell(3).setCellValue(it.path.substring(localCloneDirectory.size()))
+            } catch (java.lang.NullPointerException e) {
+                e.printStackTrace()
+            }
         }
-
-
     }
-
 //    Select selectStatement = (Select) stmt
 //    TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
 //    List<String> tableList = tablesNamesFinder.getTableList(selectStatement)
 
     //println tableList
 }
+
+// Write xlxs file.
+FileOutputStream fileOut = new FileOutputStream("table_names.xlsx");
+workbook.write(fileOut)
+fileOut.close()
+workbook.close()
+
+println allTables
