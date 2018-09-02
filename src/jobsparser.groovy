@@ -1,4 +1,5 @@
-@Grab(group='com.github.jsqlparser', module='jsqlparser', version='1.2')
+@GrabResolver(name='sonatype', root='https://oss.sonatype.org/content/repositories/snapshots/')
+@Grab(group='com.github.jsqlparser', module='jsqlparser', version='1.3-SNAPSHOT')
 @Grab(group='org.eclipse.jgit', module='org.eclipse.jgit', version='5.0.2.201807311906-r')
 @Grab(group='org.apache.poi', module='poi', version='3.17')
 @Grab(group='org.apache.poi', module='poi-ooxml', version='3.17')
@@ -31,9 +32,6 @@ Git git = Git.cloneRepository()
 
 // At the moment some of the sql queries cannot
 // be parsed with jsqlparser.
-// Tricky: File name may not be unique.
-// Use file path as reported in the loop,
-// without repo name variable.
 def sqlFilesBlacklist = []
 sqlFilesBlacklist.add("/arp_mjpnatur_pub/arp_mjpnatur_pub_flaechen.sql")
 sqlFilesBlacklist.add("/arp_naturreservate_pub/arp_naturreservate_pub_naturreservate_teilgebiete.sql")
@@ -51,8 +49,6 @@ sqlFilesBlacklist.add("/afu_gewschutz_export_ai/export/gsbereich_insert.sql")
 sqlFilesBlacklist.add("/afu_gewschutz_export_ai/export/gszone_insert.sql")
 sqlFilesBlacklist.add("/agi_hoheitsgrenzen_pub/agi_hoheitsgrenzen_pub_hoheitsgrenzen_gemeindegrenze.sql")
 sqlFilesBlacklist.add("/awjf_biotopbaeume_pub/awjf_biotopbaeume_pub_biotopbaeume_biotopbaum.sql")
-sqlFilesBlacklist.add("/afu_gewaesserschutz_pub/afu_gewaesserschutz_pub_aww_gszoar.sql")
-sqlFilesBlacklist.add("/afu_gewaesserschutz_pub/afu_gewaesserschutz_pub_aww_gsab.sql")
 sqlFilesBlacklist.add("/agi_av_gb_abgleich_pub/agi_av_gb_abgleich_import_uebersicht_des_vergleichs_staging.sql")
 sqlFilesBlacklist.add("/agi_av_gb_abgleich_pub/agi_av_gb_abgleich_import_differenzen_staging.sql")
 
@@ -107,11 +103,6 @@ list.each {
             }
         }
     }
-//    Select selectStatement = (Select) stmt
-//    TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
-//    List<String> tableList = tablesNamesFinder.getTableList(selectStatement)
-
-    //println tableList
 }
 
 // Write xlxs file.

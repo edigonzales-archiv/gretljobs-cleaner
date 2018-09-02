@@ -64,6 +64,29 @@ SELECT
 FROM 
 	av_avdpool_ng.gemeindegrenzen_gemeindegrenze
 ;
+SELECT
+	gb_daten.bfs_nr AS gb_gem_bfs,
+	gb_daten.kreis_nr AS gb_kreis_nr,
+	grundbuchkreise.grundbuch AS gb_gemeinde,
+	gb_daten.grundstueck_nr AS gb_nummer,
+	gb_daten.grundstueckart AS gb_art,
+	gb_daten.flaeche AS gb_flaeche,
+	gb_daten.fuehrungsart AS gb_fuehrungsart,
+	grundbuchkreise.nbident AS gb_nbident
+FROM
+	agi_av_gb_abgleich_import.gb_daten 
+	JOIN av_grundbuch.grundbuchkreise
+		ON 
+			grundbuchkreise.gem_bfs = gb_daten.bfs_nr 
+			AND 
+			(
+				CASE 
+					WHEN grundbuchkreise.kreis_nr IS NULL
+						THEN gb_daten.kreis_nr IS NULL
+					ELSE grundbuchkreise.kreis_nr = gb_daten.kreis_nr
+				END
+			)
+;
 CREATE TABLE agi_grundbuchplan_pub.liegenschaften_liegenschaft (
 	t_id serial NOT NULL,
 	tid varchar NULL,
