@@ -105,7 +105,7 @@ list.each {
     def file = new File(it.path)
     def sql = file.text
 
-    try {
+    //try {
         Statements stmts = CCJSqlParserUtil.parseStatements(sql)
         for (Statement stmt : stmts.statements) {
             TablesNamesFinder tablesNamesFinder = new TablesNamesFinder()
@@ -133,9 +133,9 @@ list.each {
                 }
             }
         }
-    } catch (Exception e) {
-        e.printStackTrace()
-    }
+    //} catch (Exception e) {
+    //    e.printStackTrace()
+    //}
 }
 
 // Write xlxs file.
