@@ -33,22 +33,17 @@ Git git = Git.cloneRepository()
 // At the moment some of the sql queries cannot
 // be parsed with jsqlparser.
 def sqlFilesBlacklist = []
-sqlFilesBlacklist.add("/arp_mjpnatur_pub/arp_mjpnatur_pub_flaechen.sql")
+// 2018-09-02
 sqlFilesBlacklist.add("/arp_naturreservate_pub/arp_naturreservate_pub_naturreservate_teilgebiete.sql")
 sqlFilesBlacklist.add("/arp_naturreservate_pub/arp_naturreservate_pub_naturreservate_reservate.sql")
 sqlFilesBlacklist.add("/agi_av_kaso_abgleich_pub/agi_av_kaso_abgleich_import_differenzen_staging.sql")
 sqlFilesBlacklist.add("/agi_av_kaso_abgleich_pub/agi_av_kaso_abgleich_import_uebersicht_des_vergleichs_staging.sql")
-sqlFilesBlacklist.add("/afu_isboden_pub/afu_isboden_pub_bodeneinheit_gesamt.sql")
 sqlFilesBlacklist.add("/afu_isboden_pub/afu_isboden_pub_bodenprofilstandort.sql")
 sqlFilesBlacklist.add("/amb_zivilschutz_adressen_export/amb_zivilschutz_adressen_staging_adressen_zivilschutz.sql")
 sqlFilesBlacklist.add("/arp_aggloprogramme_pub/arp_aggloprogramme_pub_agglomrtnsprgrmme_massnahme.sql")
-sqlFilesBlacklist.add("/agi_wmts_hetzner_seeder/createHoheitsgrenzenSchema.sql")
-sqlFilesBlacklist.add("/agi_wmts_hetzner_seeder/createGrundbuchplanSchema.sql")
 sqlFilesBlacklist.add("/afu_gewschutz_export_ai/export/gsareal_insert.sql")
 sqlFilesBlacklist.add("/afu_gewschutz_export_ai/export/gsbereich_insert.sql")
 sqlFilesBlacklist.add("/afu_gewschutz_export_ai/export/gszone_insert.sql")
-sqlFilesBlacklist.add("/agi_hoheitsgrenzen_pub/agi_hoheitsgrenzen_pub_hoheitsgrenzen_gemeindegrenze.sql")
-sqlFilesBlacklist.add("/awjf_biotopbaeume_pub/awjf_biotopbaeume_pub_biotopbaeume_biotopbaum.sql")
 sqlFilesBlacklist.add("/agi_av_gb_abgleich_pub/agi_av_gb_abgleich_import_uebersicht_des_vergleichs_staging.sql")
 sqlFilesBlacklist.add("/agi_av_gb_abgleich_pub/agi_av_gb_abgleich_import_differenzen_staging.sql")
 
